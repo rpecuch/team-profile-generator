@@ -37,17 +37,17 @@ inquirer
         {
             type: 'input',
             message: 'Enter engineer name:',
-            name: 'name',
+            name: 'engineerName',
         },
         {
             type: 'input',
             message: "Enter engineer's employee ID:",
-            name: 'id',
+            name: 'engineerId',
         },
         {
             type: 'input',
             message: "Enter engineer's email address:",
-            name: 'email',
+            name: 'engineerEmail',
         },
         {
             type: 'input',
@@ -59,17 +59,17 @@ inquirer
         {
             type: 'input',
             message: 'Enter intern name:',
-            name: 'name',
+            name: 'internName',
         },
         {
             type: 'input',
             message: "Enter intern's employee ID:",
-            name: 'id',
+            name: 'internId',
         },
         {
             type: 'input',
             message: "Enter intern's email address:",
-            name: 'email',
+            name: 'internEmail',
         },
         {
             type: 'input',
@@ -86,7 +86,10 @@ inquirer
 //take values from answers object and put into the classes you made
 newFunction = function(answers) {
     manager = new Manager(answers.managerName, answers.managerId, answers.managerEmail, answers.officeNumber);
-
+    //need to pick up how many engineers
+    engineer = new Engineer(answers.engineerName, answers.engineerId, answers.engineerEmail, answers.github);
+    //need to pick up how many interns
+    intern = new Intern(answers.internName, answers.internId, answers.internEmail, answers.school);
 }
 
 //function to generate html
@@ -125,7 +128,27 @@ generateHtml = function() {
           <p>Office number: ${manager.officeNumber}</p>
         </div>
       </div>\n`
-    //cards for the employees
+    //cards for the employees need to pick up how many of each 
+    const engineerCard = `<div class="card" style="width: 18rem;">
+    <div class="card-body">
+      <h5 class="card-title">${engineer.name}</h5>
+      <h6 class="card-subtitle mb-2 text-muted">Engineer</h6>
+      <p class="card-text">ID: ${engineer.id}</p>
+      <p>Email: ${engineer.email}</p>
+      <p>GitHub: <a href="https://github.com/${engineer.github}">${engineer.github}</a></p>
+    </div>
+  </div>\n`
+    
+    const internCard = `<div class="card" style="width: 18rem;">
+    <div class="card-body">
+      <h5 class="card-title">${intern.name}</h5>
+      <h6 class="card-subtitle mb-2 text-muted">Intern</h6>
+      <p class="card-text">ID: ${intern.id}</p>
+      <p>Email: ${intern.email}</p>
+      <p>School: ${intern.school}</p>
+    </div>
+  </div>\n`
+
     const end = `</div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>
@@ -134,5 +157,5 @@ generateHtml = function() {
   </body>
 </html>`
     //also need to return employee cards
-    return(head, jumbo, managerCard, end);
+    return(head, jumbo, managerCard,engineerCard, internCard, end);
 }
