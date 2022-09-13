@@ -3,7 +3,7 @@ const Employee = require('./lib/Employee');
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
-//need to catch errors
+//need to add email links
 
 generateManager = function() {
     inquirer
@@ -32,10 +32,8 @@ generateManager = function() {
     .then((answers) => {
         manager = new Manager(answers.managerName, answers.managerId, answers.managerEmail, answers.officeNumber);
         console.log("Manager added!");
-        //this all logs correctly
-        console.log(manager.name, manager.id, manager.email, manager.officeNumber);
-        //pass this into html fxn
-        generateEmployees();
+        generateManagerCard(manager);
+        // generateEmployees();
     })
     .catch((err) => console.log(err));
 }
@@ -61,7 +59,7 @@ generateEmployees = function() {
             generateIntern();
         }
         else {
-            //go directly to creating file
+            //go directly to creating html file
         }
     })
     .catch((err) => console.log(err));
@@ -94,8 +92,7 @@ generateEngineer = function () {
     .then((answers) => {
         engineer = new Engineer(answers.engineerName, answers.engineerId, answers.engineerEmail, answers.github);
         console.log('Engineer added!');
-        //all of this logs correctly now use it to generate html
-        console.log(engineer.name, engineer.id, engineer.email, engineer.github);
+        generateEngineerCard(engineer);
         generateEmployees();
     })
     .catch((err) => console.log(err));
@@ -130,77 +127,89 @@ generateIntern = function () {
         console.log('Intern added!');
         //all of this logs correctly now generate html
         console.log(intern.name, intern.id, intern.email, intern.school);
+        generateInternCard(intern);
         generateEmployees();
     })
     .catch((err) => console.log(err));
 }
 
 //create html from each object created
+generateManagerCard = function(manager) {
+    const managerCard = `<div class="row justify-content-center">
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title">${manager.name}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">Manager</h6>
+          <p class="card-text">ID: ${manager.id}</p>
+          <p>Email: ${manager.email}</p>
+          <p>Office number: ${manager.officeNumber}</p>
+        </div>
+      </div>\n`;
+    //properly picked up by fxn
+    generateHtml(managerCard);
+}
 
-// //function to generate html
-// generateHtml = function() {
-//     const head = `<!DOCTYPE html>
-//     <html lang="en">
-//       <head>
-//         <meta charset="UTF-8" />
-//         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-//         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-//         <meta name="Description" content="Enter your description here" />
-//         <link
-//           rel="stylesheet"
-//           href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css"
-//         />
-//         <link
-//           rel="stylesheet"
-//           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-//         />
-//         <link rel="stylesheet" href="assets/css/style.css" />
-//         <title>My Team</title>
-//       </head>\n`;
-//     const jumbo = `<body>
-//     <div class="jumbotron jumbotron-fluid">
-//         <div class="container">
-//           <h1 class="display-4 text-center">My Team</h1>
-//         </div>
-//       </div>\n`
-//     const managerCard = `<div class="row justify-content-center">
-//     <div class="card" style="width: 18rem;">
-//         <div class="card-body">
-//           <h5 class="card-title">${manager.name}</h5>
-//           <h6 class="card-subtitle mb-2 text-muted">Manager</h6>
-//           <p class="card-text">ID: ${manager.id}</p>
-//           <p>Email: ${manager.email}</p>
-//           <p>Office number: ${manager.officeNumber}</p>
-//         </div>
-//       </div>\n`
-//     //cards for the employees need to pick up how many of each 
-//     const engineerCard = `<div class="card" style="width: 18rem;">
-//     <div class="card-body">
-//       <h5 class="card-title">${engineer.name}</h5>
-//       <h6 class="card-subtitle mb-2 text-muted">Engineer</h6>
-//       <p class="card-text">ID: ${engineer.id}</p>
-//       <p>Email: ${engineer.email}</p>
-//       <p>GitHub: <a href="https://github.com/${engineer.github}">${engineer.github}</a></p>
-//     </div>
-//   </div>\n`
-    
-//     const internCard = `<div class="card" style="width: 18rem;">
-//     <div class="card-body">
-//       <h5 class="card-title">${intern.name}</h5>
-//       <h6 class="card-subtitle mb-2 text-muted">Intern</h6>
-//       <p class="card-text">ID: ${intern.id}</p>
-//       <p>Email: ${intern.email}</p>
-//       <p>School: ${intern.school}</p>
-//     </div>
-//   </div>\n`
+generateEngineerCard = function(engineer) {
+    const engineerCard = `<div class="card" style="width: 18rem;">
+    <div class="card-body">
+      <h5 class="card-title">${engineer.name}</h5>
+      <h6 class="card-subtitle mb-2 text-muted">Engineer</h6>
+      <p class="card-text">ID: ${engineer.id}</p>
+      <p>Email: ${engineer.email}</p>
+      <p>GitHub: <a href="https://github.com/${engineer.github}">${engineer.github}</a></p>
+    </div>
+  </div>\n`;
+    //this logs correctly now pass into fxn to generate html doc
+    console.log(engineerCard);
+}
 
-//     const end = `</div>
+generateInternCard = function(intern) {
+    const internCard = `<div class="card" style="width: 18rem;">
+    <div class="card-body">
+      <h5 class="card-title">${intern.name}</h5>
+      <h6 class="card-subtitle mb-2 text-muted">Intern</h6>
+      <p class="card-text">ID: ${intern.id}</p>
+      <p>Email: ${intern.email}</p>
+      <p>School: ${intern.school}</p>
+    </div>
+  </div>\n`;
+  //this logs correctly now pass into fxn to generate html doc
+    console.log(internCard);
+}
 
-//     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>
-//     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
-//     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
-//   </body>
-// </html>`
-//     //also need to return employee cards
-//     return(head, jumbo, managerCard,engineerCard, internCard, end);
-// }
+//function to generate html
+generateHtml = function(managerCard) {
+    const head = `<!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <meta name="Description" content="Enter your description here" />
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css"
+        />
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        />
+        <link rel="stylesheet" href="assets/css/style.css" />
+        <title>My Team</title>
+      </head>\n`;
+    const jumbo = `<body>
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <h1 class="display-4 text-center">My Team</h1>
+        </div>
+      </div>\n`
+
+    const end = `</div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+  </body>
+</html>`
+    console.log(head, jumbo, managerCard,end);
+}
