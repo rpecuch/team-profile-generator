@@ -139,11 +139,11 @@ generateIntern = function () {
 generateManagerCard = function(manager) {
     const managerCard = `<div class="row justify-content-center">
     <div class="card" style="width: 18rem;">
-        <div class="card-body">
+        <div class="card-body bg-info">
           <h5 class="card-title">${manager.name}</h5>
-          <h6 class="card-subtitle mb-2 text-muted">Manager</h6>
+          <h6 class="card-subtitle mb-2 font-weight-bold">Manager</h6>
           <p class="card-text">ID: ${manager.id}</p>
-          <p>Email: ${manager.email}</p>
+          <p>Email: <a class= "text-light" href="mailto: ${manager.email}">${manager.email}</a></p>
           <p>Office number: ${manager.officeNumber}</p>
         </div>
       </div>\n`;
@@ -152,12 +152,12 @@ generateManagerCard = function(manager) {
 
 generateEngineerCard = function(engineer) {
     const engineerCard = `<div class="card" style="width: 18rem;">
-    <div class="card-body">
+    <div class="card-body bg-danger">
       <h5 class="card-title">${engineer.name}</h5>
-      <h6 class="card-subtitle mb-2 text-muted">Engineer</h6>
+      <h6 class="card-subtitle mb-2 font-weight-bold">Engineer</h6>
       <p class="card-text">ID: ${engineer.id}</p>
-      <p>Email: ${engineer.email}</p>
-      <p>GitHub: <a href="https://github.com/${engineer.github}">${engineer.github}</a></p>
+      <p>Email: <a class= "text-light" href="mailto: ${engineer.email}">${engineer.email}</a></p>
+      <p>GitHub: <a class= "text-light" href="https://github.com/${engineer.github}">${engineer.github}</a></p>
     </div>
   </div>\n`;
     engineers.push(engineerCard);
@@ -165,11 +165,11 @@ generateEngineerCard = function(engineer) {
 
 generateInternCard = function(intern) {
     const internCard = `<div class="card" style="width: 18rem;">
-    <div class="card-body">
+    <div class="card-body bg-success">
       <h5 class="card-title">${intern.name}</h5>
-      <h6 class="card-subtitle mb-2 text-muted">Intern</h6>
+      <h6 class="card-subtitle mb-2 font-weight-bold">Intern</h6>
       <p class="card-text">ID: ${intern.id}</p>
-      <p>Email: ${intern.email}</p>
+      <p>Email: <a class= "text-light" href="mailto: ${intern.email}">${intern.email}</a></p>
       <p>School: ${intern.school}</p>
     </div>
   </div>\n`;
