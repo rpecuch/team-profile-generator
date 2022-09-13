@@ -1,14 +1,16 @@
+//import needed modules and files
 const inquirer = require('inquirer');
 const Employee = require('./lib/Employee');
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
+const fs = require('fs');
+//empty arrays to store generated data
 const managers = [];
 const engineers = [];
 const interns = [];
-const fs = require('fs');
-//need to add email links
 
+//collects information about the manager role
 generateManager = function() {
     inquirer
     .prompt([
@@ -29,7 +31,7 @@ generateManager = function() {
         },
         {
             type: 'input',
-            message: 'Enter office phone number:',
+            message: 'Enter office number:',
             name: 'officeNumber',
         }
     ])
@@ -42,8 +44,10 @@ generateManager = function() {
     .catch((err) => console.log(err));
 }
 
+//runs when application starts
 generateManager();
 
+//allows user to choose the type of employee to add
 generateEmployees = function() {
     inquirer
     .prompt([
@@ -69,6 +73,7 @@ generateEmployees = function() {
     .catch((err) => console.log(err));
 }
 
+//collects information about engineer role if selected
 generateEngineer = function () {
     inquirer
     .prompt([
@@ -102,6 +107,7 @@ generateEngineer = function () {
     .catch((err) => console.log(err));
 }
 
+//collects information about intern role if selected
 generateIntern = function () {
     inquirer
     .prompt([
@@ -135,13 +141,13 @@ generateIntern = function () {
     .catch((err) => console.log(err));
 }
 
-//create html from each object created
+//creates html from manager object
 generateManagerCard = function(manager) {
     const managerCard = `<div class="row justify-content-center">
     <div class="card" style="width: 18rem;">
         <div class="card-body bg-info">
           <h5 class="card-title">${manager.name}</h5>
-          <h6 class="card-subtitle mb-2 font-weight-bold">Manager</h6>
+          <h6 class="card-subtitle mb-2 font-weight-bold"><i class="fa-solid fa-mug-saucer pr-1"></i>Manager</h6>
           <p class="card-text">ID: ${manager.id}</p>
           <p>Email: <a class= "text-light" href="mailto: ${manager.email}">${manager.email}</a></p>
           <p>Office number: ${manager.officeNumber}</p>
@@ -150,11 +156,12 @@ generateManagerCard = function(manager) {
     managers.push(managerCard);
 }
 
+//creates html from engineer object
 generateEngineerCard = function(engineer) {
     const engineerCard = `<div class="card" style="width: 18rem;">
     <div class="card-body bg-danger">
       <h5 class="card-title">${engineer.name}</h5>
-      <h6 class="card-subtitle mb-2 font-weight-bold">Engineer</h6>
+      <h6 class="card-subtitle mb-2 font-weight-bold"><i class="fa-solid fa-computer pr-1"></i>Engineer</h6>
       <p class="card-text">ID: ${engineer.id}</p>
       <p>Email: <a class= "text-light" href="mailto: ${engineer.email}">${engineer.email}</a></p>
       <p>GitHub: <a class= "text-light" href="https://github.com/${engineer.github}">${engineer.github}</a></p>
@@ -163,11 +170,12 @@ generateEngineerCard = function(engineer) {
     engineers.push(engineerCard);
 }
 
+//createst html from intern object
 generateInternCard = function(intern) {
     const internCard = `<div class="card" style="width: 18rem;">
     <div class="card-body bg-success">
       <h5 class="card-title">${intern.name}</h5>
-      <h6 class="card-subtitle mb-2 font-weight-bold">Intern</h6>
+      <h6 class="card-subtitle mb-2 font-weight-bold"><i class="fa-solid fa-graduation-cap pr-1"></i>Intern</h6>
       <p class="card-text">ID: ${intern.id}</p>
       <p>Email: <a class= "text-light" href="mailto: ${intern.email}">${intern.email}</a></p>
       <p>School: ${intern.school}</p>
@@ -176,7 +184,7 @@ generateInternCard = function(intern) {
   interns.push(internCard);
 }
 
-//function to generate html
+//generates complete html document
 generateHtml = function(managers, engineers, interns) {
     const head = `<!DOCTYPE html>
     <html lang="en">
@@ -193,6 +201,11 @@ generateHtml = function(managers, engineers, interns) {
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
         />
+        <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <script src="https://kit.fontawesome.com/73525b73cb.js" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="assets/css/style.css" />
         <title>My Team</title>
       </head>\n`;
@@ -216,8 +229,8 @@ generateHtml = function(managers, engineers, interns) {
     return document.join(" ");
 }
 
-//now write file
+//writes generated html document to a file
 createFile = function(managers, engineers, interns) {
     const fileContent = generateHtml(managers, engineers, interns);
-    fs.writeFile('./dist/index.html', fileContent, (error) => error ? console.error(error) : console.log("Success!"));
+    fs.writeFile('./dist/index.html', fileContent, (error) => error ? console.error(error) : console.log("Team profile successfully generated!"));
 }
