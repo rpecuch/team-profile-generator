@@ -3,6 +3,9 @@ const Employee = require('./lib/Employee');
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
+const managers = [];
+const engineers = [];
+const interns = [];
 //need to add email links
 
 generateManager = function() {
@@ -33,7 +36,7 @@ generateManager = function() {
         manager = new Manager(answers.managerName, answers.managerId, answers.managerEmail, answers.officeNumber);
         console.log("Manager added!");
         generateManagerCard(manager);
-        // generateEmployees();
+        generateEmployees();
     })
     .catch((err) => console.log(err));
 }
@@ -59,7 +62,7 @@ generateEmployees = function() {
             generateIntern();
         }
         else {
-            //go directly to creating html file
+            generateHtml(managers, engineers, interns);
         }
     })
     .catch((err) => console.log(err));
@@ -145,8 +148,7 @@ generateManagerCard = function(manager) {
           <p>Office number: ${manager.officeNumber}</p>
         </div>
       </div>\n`;
-    //properly picked up by fxn
-    generateHtml(managerCard);
+    managers.push(managerCard);
 }
 
 generateEngineerCard = function(engineer) {
@@ -159,8 +161,7 @@ generateEngineerCard = function(engineer) {
       <p>GitHub: <a href="https://github.com/${engineer.github}">${engineer.github}</a></p>
     </div>
   </div>\n`;
-    //this logs correctly now pass into fxn to generate html doc
-    console.log(engineerCard);
+    engineers.push(engineerCard);
 }
 
 generateInternCard = function(intern) {
@@ -173,12 +174,11 @@ generateInternCard = function(intern) {
       <p>School: ${intern.school}</p>
     </div>
   </div>\n`;
-  //this logs correctly now pass into fxn to generate html doc
-    console.log(internCard);
+  interns.push(internCard);
 }
 
 //function to generate html
-generateHtml = function(managerCard) {
+generateHtml = function(managers, engineers, interns) {
     const head = `<!DOCTYPE html>
     <html lang="en">
       <head>
@@ -197,12 +197,18 @@ generateHtml = function(managerCard) {
         <link rel="stylesheet" href="assets/css/style.css" />
         <title>My Team</title>
       </head>\n`;
+    console.log(head);
     const jumbo = `<body>
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
           <h1 class="display-4 text-center">My Team</h1>
         </div>
       </div>\n`
+    console.log(jumbo);
+    const managerCard = managers[0];
+    console.log(managerCard);
+    engineers.forEach((eng) => console.log(eng));
+    interns.forEach((int) => console.log(int));
 
     const end = `</div>
 
@@ -211,5 +217,8 @@ generateHtml = function(managerCard) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
   </body>
 </html>`
-    console.log(head, jumbo, managerCard,end);
+    console.log(end);
+    // console.log(head, jumbo, managerCard,end);
 }
+
+//now write file
