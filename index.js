@@ -6,6 +6,7 @@ const Intern = require('./lib/Intern');
 const managers = [];
 const engineers = [];
 const interns = [];
+const fs = require('fs');
 //need to add email links
 
 generateManager = function() {
@@ -62,7 +63,7 @@ generateEmployees = function() {
             generateIntern();
         }
         else {
-            generateHtml(managers, engineers, interns);
+            createFile(managers, engineers, interns);
         }
     })
     .catch((err) => console.log(err));
@@ -128,8 +129,6 @@ generateIntern = function () {
     .then( (answers) => {
         intern = new Intern(answers.internName, answers.internId, answers.internEmail, answers.school);
         console.log('Intern added!');
-        //all of this logs correctly now generate html
-        console.log(intern.name, intern.id, intern.email, intern.school);
         generateInternCard(intern);
         generateEmployees();
     })
@@ -197,18 +196,13 @@ generateHtml = function(managers, engineers, interns) {
         <link rel="stylesheet" href="assets/css/style.css" />
         <title>My Team</title>
       </head>\n`;
-    console.log(head);
+    
     const jumbo = `<body>
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
           <h1 class="display-4 text-center">My Team</h1>
         </div>
       </div>\n`
-    console.log(jumbo);
-    const managerCard = managers[0];
-    console.log(managerCard);
-    engineers.forEach((eng) => console.log(eng));
-    interns.forEach((int) => console.log(int));
 
     const end = `</div>
 
@@ -217,8 +211,13 @@ generateHtml = function(managers, engineers, interns) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
   </body>
 </html>`
-    console.log(end);
-    // console.log(head, jumbo, managerCard,end);
+
+    const document = [head, jumbo, managers, engineers.join(" "), interns.join(" "), end]
+    return document.join(" ");
 }
 
 //now write file
+createFile = function(managers, engineers, interns) {
+    const fileContent = generateHtml(managers, engineers, interns);
+    fs.writeFile('./dist/index.html', fileContent, (error) => error ? console.error(error) : console.log("Success!"));
+}
