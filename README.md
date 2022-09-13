@@ -39,7 +39,7 @@ Then, run the following command in the command line to install the required pack
   
 The user will be prompted to answer a series of questions. The user will type their input to answer most of the questions. To select a team member to add, use the arrow keys to scroll up and down through the list. Once the user selects "Done building team", an index.html file will be generated with all of the information inputted by the user.
 
-[Click here for a demonstration.](https://drive.google.com/file/d/1OhmAQSURsSdotSYU1-rq-opnfSQxTHix/view)
+[Click here for a demonstration.](https://user-images.githubusercontent.com/109092365/189984433-1a4dff75-99af-43e9-99be-0b64617b6a64.webm)
 
   ## License
 
