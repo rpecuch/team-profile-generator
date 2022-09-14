@@ -61,10 +61,10 @@ The user will be prompted to answer a series of questions. The user will type th
   Then, run the following command in the command line to install the required jest package:
  
   ~~~
-  npm i jest@29.0.3
+  npm install --save-dev jest
   ~~~
 
-  Before running tests, open your package.json file to ensure that under "scripts" you have {"test": "jest"} listed. Run the following command in the command line to run tests:
+  Run the following command in the command line to run tests:
 
   ~~~
   npm run test
