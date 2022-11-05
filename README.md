@@ -2,6 +2,11 @@
 
   [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+  ![Bootstrap](https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white)
+  ![Node](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+  ![HTML](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+  ![JavaScript](https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E)
+
   ## Description
 
 The purpose of this project was to apply principals of Node.js and object-oriented programming to create a simple but practical application. This application generates an HTML file with team profile information based on user input, which saves time for managers. While building this project, I became comfortable with object-oriented programming and practiced the implementation of classes, subclasses, and promises. Furthermore, I learned about the importance of test-driven development and wrote my own test scripts for the first time.
