@@ -1,10 +1,11 @@
-//import needed modules and files
+//import needed packages
+const fs = require('fs');
 const inquirer = require('inquirer');
+//import classes/subclasses
 const Employee = require('./lib/Employee');
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
-const fs = require('fs');
 //empty arrays to store generated data
 const managers = [];
 const engineers = [];
@@ -13,6 +14,7 @@ const interns = [];
 //collects information about the manager role
 generateManager = function() {
     inquirer
+    //questions to ask
     .prompt([
         {
             type: 'input',
@@ -36,9 +38,12 @@ generateManager = function() {
         }
     ])
     .then((answers) => {
+        //create new instance of Manager subclass
         manager = new Manager(answers.managerName, answers.managerId, answers.managerEmail, answers.officeNumber);
         console.log("Manager added!");
+        //create card for html
         generateManagerCard(manager);
+        //ask about additional employees
         generateEmployees();
     })
     .catch((err) => console.log(err));
@@ -50,6 +55,7 @@ generateManager();
 //allows user to choose the type of employee to add
 generateEmployees = function() {
     inquirer
+    //questions to ask
     .prompt([
         {
             type: 'list',
@@ -60,12 +66,14 @@ generateEmployees = function() {
     ])
     .then((answer) =>{
         const type = answer.employeeType;
+        //call next fxn based on type of employee selected
         if(type === 'Engineer') {
             generateEngineer();
         }
         else if(type === 'Intern') {
             generateIntern();
         }
+        //create file if done building team
         else {
             createFile(managers, engineers, interns);
         }
@@ -76,6 +84,7 @@ generateEmployees = function() {
 //collects information about engineer role if selected
 generateEngineer = function () {
     inquirer
+    //questions to ask
     .prompt([
         {
             type: 'input',
@@ -99,9 +108,12 @@ generateEngineer = function () {
         }
     ])
     .then((answers) => {
+        //create new instance of Engineer subclass
         engineer = new Engineer(answers.engineerName, answers.engineerId, answers.engineerEmail, answers.github);
         console.log('Engineer added!');
+        //create html card
         generateEngineerCard(engineer);
+        //ask about additional employees
         generateEmployees();
     })
     .catch((err) => console.log(err));
@@ -110,6 +122,7 @@ generateEngineer = function () {
 //collects information about intern role if selected
 generateIntern = function () {
     inquirer
+    //questions to ask
     .prompt([
         {
             type: 'input',
@@ -133,9 +146,12 @@ generateIntern = function () {
         }
     ])
     .then( (answers) => {
+        //create new instance of Intern subclass
         intern = new Intern(answers.internName, answers.internId, answers.internEmail, answers.school);
         console.log('Intern added!');
+        //create intern html card
         generateInternCard(intern);
+        //ask about additional employees
         generateEmployees();
     })
     .catch((err) => console.log(err));
@@ -153,6 +169,7 @@ generateManagerCard = function(manager) {
           <p>Office number: ${manager.officeNumber}</p>
         </div>
       </div>\n`;
+    //add to managers array
     managers.push(managerCard);
 }
 
@@ -167,6 +184,7 @@ generateEngineerCard = function(engineer) {
       <p>GitHub: <a class= "text-light" href="https://github.com/${engineer.github}">${engineer.github}</a></p>
     </div>
   </div>\n`;
+    //add to engineers array
     engineers.push(engineerCard);
 }
 
@@ -181,6 +199,7 @@ generateInternCard = function(intern) {
       <p>School: ${intern.school}</p>
     </div>
   </div>\n`;
+  //add to interns array
   interns.push(internCard);
 }
 
@@ -224,7 +243,7 @@ generateHtml = function(managers, engineers, interns) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
   </body>
 </html>`
-
+    //join different sections of html doc
     const document = [head, jumbo, managers, engineers.join(" "), interns.join(" "), end]
     return document.join(" ");
 }
@@ -232,5 +251,6 @@ generateHtml = function(managers, engineers, interns) {
 //writes generated html document to a file
 createFile = function(managers, engineers, interns) {
     const fileContent = generateHtml(managers, engineers, interns);
+    //save to file system
     fs.writeFile('./dist/index.html', fileContent, (error) => error ? console.error(error) : console.log("Team profile successfully generated!"));
 }
